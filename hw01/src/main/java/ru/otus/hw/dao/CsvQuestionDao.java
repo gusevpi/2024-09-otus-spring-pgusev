@@ -20,6 +20,7 @@ import java.util.Objects;
 
 @RequiredArgsConstructor
 public class CsvQuestionDao implements QuestionDao {
+
     private final TestFileNameProvider fileNameProvider;
 
     @Override
