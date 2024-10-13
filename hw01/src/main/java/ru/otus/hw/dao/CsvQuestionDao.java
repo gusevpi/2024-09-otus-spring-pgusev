@@ -9,10 +9,10 @@ import ru.otus.hw.exceptions.QuestionReadException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 public class CsvQuestionDao implements QuestionDao {
@@ -23,12 +23,8 @@ public class CsvQuestionDao implements QuestionDao {
     @Override
     public List<Question> findAll() {
         List<QuestionDto> questionRows;
-        try (InputStream is = getClass().getResourceAsStream(fileNameProvider.getTestFileName())) {
-            if (is == null) {
-                throw new QuestionReadException("File not found");
-            }
+        try (var is = Objects.requireNonNull(getClass().getResourceAsStream(fileNameProvider.getTestFileName()))) {
             Reader reader = new BufferedReader(new InputStreamReader(is));
-
             // Использовать CsvToBean
             // https://opencsv.sourceforge.net/#collection_based_bean_fields_one_to_many_mappings
             questionRows = new CsvToBeanBuilder<QuestionDto>(reader)
@@ -37,6 +33,8 @@ public class CsvQuestionDao implements QuestionDao {
                     .withSkipLines(1)
                     .build()
                     .parse();
+        } catch (NullPointerException e) {
+            throw new QuestionReadException("File not found");
         } catch (IOException e) {
             // Использовать QuestionReadException
             throw new QuestionReadException(e.getMessage());
