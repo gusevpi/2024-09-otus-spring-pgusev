@@ -3,11 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-
-    <groupId>ru.otus.hw</groupId>
     <artifactId>hw02-annotation-config</artifactId>
-    <version>1.0</version>
+
+    <parent>
+        <groupId>ru.otus</groupId>
+        <artifactId>2024-09-otus-spring-pgusev</artifactId>
+        <version>${revision}</version>
+    </parent>
 
     <properties>
         <maven.compiler.target>17</maven.compiler.target>
@@ -43,8 +45,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -107,6 +107,7 @@
                 <version>3.3.0</version>
                 <!--Настроить для создания jar с зависимостями-->
             </plugin>
+
         </plugins>
     </build>
 </project>
