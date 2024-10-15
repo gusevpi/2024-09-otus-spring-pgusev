@@ -2,6 +2,7 @@ package ru.otus.hw.dao;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import ru.otus.hw.config.TestFileNameProvider;
 import ru.otus.hw.dao.dto.QuestionDto;
 import ru.otus.hw.domain.Question;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RequiredArgsConstructor
+@Component
 public class CsvQuestionDao implements QuestionDao {
 
     private final TestFileNameProvider fileNameProvider;
@@ -23,7 +25,8 @@ public class CsvQuestionDao implements QuestionDao {
     @Override
     public List<Question> findAll() {
         List<QuestionDto> questionRows;
-        try (var is = Objects.requireNonNull(getClass().getResourceAsStream(fileNameProvider.getTestFileName()))) {
+        String filePath = "/%s".formatted(fileNameProvider.getTestFileName());
+        try (var is = Objects.requireNonNull(getClass().getResourceAsStream(filePath))) {
             Reader reader = new BufferedReader(new InputStreamReader(is));
             // Использовать CsvToBean
             // https://opencsv.sourceforge.net/#collection_based_bean_fields_one_to_many_mappings
