@@ -25,7 +25,7 @@ public class CsvQuestionDao implements QuestionDao {
     @Override
     public List<Question> findAll() {
         List<QuestionDto> questionRows;
-        String filePath = "/%s".formatted(fileNameProvider.getTestFileName());
+        String filePath = fileNameProvider.getTestFileName();
         try (var is = Objects.requireNonNull(getClass().getResourceAsStream(filePath))) {
             Reader reader = new BufferedReader(new InputStreamReader(is));
             // Использовать CsvToBean
