@@ -1,13 +1,12 @@
 package ru.otus.hw.service;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.dao.QuestionDao;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Student;
 import ru.otus.hw.domain.TestResult;
-import ru.otus.hw.service.print.QuestionPrinter;
+import ru.otus.hw.service.print.PrintService;
 
 import java.util.List;
 
@@ -18,11 +17,11 @@ public class TestServiceImpl implements TestService {
 
     private final QuestionDao questionDao;
 
-    private final QuestionPrinter questionPrinter;
+    private final PrintService questionPrinter;
 
     public TestServiceImpl(IOService ioService,
                            QuestionDao questionDao,
-                           @Qualifier("questionPrinter") QuestionPrinter questionPrinter) {
+                           PrintService questionPrinter) {
         this.ioService = ioService;
         this.questionDao = questionDao;
         this.questionPrinter = questionPrinter;

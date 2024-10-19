@@ -1,16 +1,19 @@
 package ru.otus.hw.service.print;
 
-import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 import ru.otus.hw.domain.Answer;
+import ru.otus.hw.domain.Question;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@UtilityClass
 public class AnswerPrinter implements PrintService {
+
+    public String format(Question question) {
+        return format(question.answers());
+    }
 
     public static String format(List<Answer> answers) {
         return IntStream.range(0, answers.size())
