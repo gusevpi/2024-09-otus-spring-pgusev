@@ -12,6 +12,16 @@ import ru.otus.hw.exceptions.QuestionReadException;
 class CsvQuestionDaoTest {
 
     @Test
+    @DisplayName("Чтение из тестового ресурса")
+    void findAll_test_1() {
+        TestFileNameProvider fileNameProvider = Mockito.mock(TestFileNameProvider.class);
+        Mockito.when(fileNameProvider.getTestFileName()).thenReturn("/questions.csv");
+        CsvQuestionDao csvQuestionDao = new CsvQuestionDao(fileNameProvider);
+        Assertions.assertDoesNotThrow(csvQuestionDao::findAll);
+        Assertions.assertEquals(6, csvQuestionDao.findAll().size());
+    }
+
+    @Test
     @DisplayName("Чтение из несуществующего ресурса c помощью заглушки")
     void findAll_test_2() {
         TestFileNameProvider fileNameProvider = Mockito.mock(TestFileNameProvider.class);
