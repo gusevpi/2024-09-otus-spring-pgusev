@@ -5,7 +5,7 @@ import ru.otus.hw.dao.QuestionDao;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Student;
 import ru.otus.hw.domain.TestResult;
-import ru.otus.hw.service.print.PrintService;
+import ru.otus.hw.service.print.QuestionPrinter;
 
 import java.util.List;
 
@@ -16,16 +16,13 @@ public class TestServiceImpl implements TestService {
 
     private final QuestionDao questionDao;
 
-    private final PrintService questionPrinter;
-
     public TestServiceImpl(IOService ioService,
-                           QuestionDao questionDao,
-                           PrintService questionPrinter) {
+                           QuestionDao questionDao) {
         this.ioService = ioService;
         this.questionDao = questionDao;
-        this.questionPrinter = questionPrinter;
     }
 
+    @SuppressWarnings("checkstyle:LineLength")
     @Override
     public TestResult executeTestFor(Student student) {
         ioService.printLine("");
@@ -36,7 +33,7 @@ public class TestServiceImpl implements TestService {
         questions.forEach(question -> {
             var isValidAnswer = validateAnswer(
                     question.answers(),
-                    ioService.readStringWithPrompt(questionPrinter.format(question))
+                    ioService.readStringWithPrompt(QuestionPrinter.format(question))
             );
             testResult.applyAnswer(question, isValidAnswer);
         });
