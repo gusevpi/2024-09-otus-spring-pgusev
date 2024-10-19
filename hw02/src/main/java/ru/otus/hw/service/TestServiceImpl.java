@@ -1,6 +1,5 @@
 package ru.otus.hw.service;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.dao.QuestionDao;
 import ru.otus.hw.domain.Answer;
@@ -34,25 +33,22 @@ public class TestServiceImpl implements TestService {
         var questions = questionDao.findAll();
         var testResult = new TestResult(student);
 
-        for (var question : questions) {
-            String userAnswerInput = ioService.readStringWithPrompt(questionPrinter.format(question));
-            String correctAnswerIndex = fetchCorrectAnswerIndex(question.answers());
-            var isAnswerValid = StringUtils.isNotBlank(correctAnswerIndex) && userAnswerInput.equals(correctAnswerIndex);
-            testResult.applyAnswer(question, isAnswerValid);
-        }
+        questions.forEach(question -> {
+            var isValidAnswer = validateAnswer(
+                    question.answers(),
+                    ioService.readStringWithPrompt(questionPrinter.format(question))
+            );
+            testResult.applyAnswer(question, isValidAnswer);
+        });
         return testResult;
     }
 
-    private String fetchCorrectAnswerIndex(List<Answer> answers) {
-        if (answers == null) {
-            return StringUtils.EMPTY;
+    boolean validateAnswer(List<Answer> answers, String userAnswerInput) {
+        try {
+            return answers.get(Integer.parseInt(userAnswerInput) - 1).isCorrect();
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            ioService.printFormattedLine("Wrong input value! Next question:%n");
+            return false;
         }
-        for (int i = 0; i < answers.size(); i++) {
-            Answer answer = answers.get(i);
-            if (answer != null && answer.isCorrect()) {
-                return String.valueOf(i + 1);
-            }
-        }
-        return StringUtils.EMPTY;
     }
 }
