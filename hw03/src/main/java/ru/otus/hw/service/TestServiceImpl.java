@@ -9,6 +9,7 @@ import ru.otus.hw.domain.TestResult;
 import ru.otus.hw.service.print.QuestionPrinter;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +40,9 @@ public class TestServiceImpl implements TestService {
 
     boolean validateAnswer(List<Answer> answers, String userAnswerInput) {
         try {
+            if (answers.isEmpty() || Objects.isNull(answers.get(0))) {
+                return false;
+            }
             return answers.get(Integer.parseInt(userAnswerInput) - 1).isCorrect();
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
             ioService.printFormattedLine("Wrong input value! Next question:%n");
