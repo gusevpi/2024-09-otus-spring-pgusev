@@ -45,7 +45,8 @@ public class TestServiceImpl implements TestService {
             }
             return answers.get(Integer.parseInt(userAnswerInput) - 1).isCorrect();
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
-            ioService.printFormattedLine("Wrong input value! Next question:%n");
+            ioService.printFormattedLineLocalized("TestService.answer.warning");
+            ioService.printLine("");
             return false;
         }
     }
