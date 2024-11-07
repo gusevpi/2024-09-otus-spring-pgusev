@@ -12,5 +12,5 @@ test:
   rightAnswersCountToPass: 3
   locale: en-US
   fileNameByLocaleTag:
-    ru-RU: /questions_ru.csv
-    en-US: /questions.csv
+    ru-RU: /questionsTest_ru.csv
+    en-US: /questionsTest.csv
